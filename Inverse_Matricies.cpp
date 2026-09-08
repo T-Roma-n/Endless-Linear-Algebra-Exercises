@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 
 
 void print(std::vector<int> m)
@@ -18,6 +19,10 @@ int main()
 {
 	int mme = 4; // mme = max matrix entrie
 	bool inme = true; // inme = include_negative_matrix_entries
+
+	std::cout << "WARNING! There is not \"safety net\". Enter only a positive integer smaller than 10." << std::endl;
+	std::cout << "Enter the maximum value of entries in the matrices to be found: ";
+	std::cin >> mme;
 
 	// following variables are initialised here but used inside the loop
 	int det = 0;
@@ -91,5 +96,8 @@ int main()
 		print(answer.at(static_cast<int>(answer.size())/2));
 		print(answer.at(answer.size() - 1));
 	}
+	std::string end;
+	std::cout << "Enter something and press enter to close the window. ";
+	std::cin >> end;
 	return 0;
 }
