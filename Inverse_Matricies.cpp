@@ -1,7 +1,27 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <chrono>
 
+
+int get_num(int min, int max){
+	int entered_int = 2;
+	while (true)
+	{
+		try{
+			std::cout << "Enter an integer " << min << "-" << max << ": ";
+			std::cin >> entered_int;
+			if (min <= entered_int && entered_int <= max)
+			{
+				return entered_int;
+			}
+		}
+		catch (...) {
+			std::cout << "Please try again." << std::endl;
+			continue;
+		}
+	}
+}
 
 void print(std::vector<int> m)
 {
@@ -17,12 +37,9 @@ void print(std::vector<int> m)
 
 int main()
 {
-	int mme = 4; // mme = max matrix entrie
+	std::cout << "Enter the maximum value of entries in the matrices to be found." << std::endl;
+	int mme = get_num(1, 6); // mme = max matrix entrie
 	bool inme = true; // inme = include_negative_matrix_entries
-
-	std::cout << "WARNING! There is not \"safety net\". Enter only a positive integer smaller than 10." << std::endl;
-	std::cout << "Enter the maximum value of entries in the matrices to be found: ";
-	std::cin >> mme;
 
 	// following variables are initialised here but used inside the loop
 	int det = 0;
@@ -33,9 +50,10 @@ int main()
 
 	std::vector<std::vector<int>> answer;
 
+	auto start = std::chrono::high_resolution_clock::now();
 	for (int a11 = inme*mme*(-1); a11 <= mme; a11++)
 	{
-		std::cout << a11 << std::endl;
+		std::cout << ".";
 		for (int a12 = inme * mme * (-1); a12 <= mme; a12++)
 		{
 			for (int a13 = inme * mme * (-1); a13 <= mme; a13++)
@@ -90,14 +108,17 @@ int main()
 			}
 		}
 	}
-	std::cout << "Found " << answer.size() << " matrices." << std::endl;
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+
+	std::cout << "\nFound " << answer.size() << " matrices in " << duration.count() << " seconds." << std::endl;
 	if (answer.size() > 1) {
 		print(answer.at(0));
 		print(answer.at(static_cast<int>(answer.size())/2));
 		print(answer.at(answer.size() - 1));
 	}
-	std::string end;
+	std::string out_text;
 	std::cout << "Enter something and press enter to close the window. ";
-	std::cin >> end;
+	std::cin >> out_text;
 	return 0;
 }
