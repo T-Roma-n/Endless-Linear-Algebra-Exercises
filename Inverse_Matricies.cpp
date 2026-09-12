@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <chrono>
+#include <fstream>
 
 
 int get_num(int min, int max){
@@ -9,7 +10,7 @@ int get_num(int min, int max){
 	while (true)
 	{
 		try{
-			std::cout << "Enter an integer " << min << "-" << max << ": ";
+			std::cout << "Enter an integer " << min << " to " << max << ": ";
 			std::cin >> entered_int;
 			if (min <= entered_int && entered_int <= max)
 			{
@@ -112,13 +113,19 @@ int main()
 	auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
 
 	std::cout << "\nFound " << answer.size() << " matrices in " << duration.count() << " seconds." << std::endl;
-	if (answer.size() > 1) {
-		print(answer.at(0));
-		print(answer.at(static_cast<int>(answer.size())/2));
-		print(answer.at(answer.size() - 1));
+	int input = 0;
+	while (true)
+	{
+		std::cout << "Enter a number to see the corresponding matrix. Enter -1 to exit." << std::endl;
+		input = get_num(-1, answer.size());
+		if (input == -1)
+		{
+			break;
+		}
+		else
+		{
+			print(answer.at(input));
+		}
 	}
-	std::string out_text;
-	std::cout << "Enter something and press enter to close the window. ";
-	std::cin >> out_text;
 	return 0;
 }
